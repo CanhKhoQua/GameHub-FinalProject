@@ -24,7 +24,7 @@ function Layout()
 
 const router = createBrowserRouter([
     {
-      path: "/gamehub/",
+      path: "/GameHub-FinalProject/",
       Component: Layout,
       children:[
         {path: "hangman", element: <Hangman/>},
