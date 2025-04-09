@@ -6,9 +6,16 @@ export default function Cardgame()
 {
     const [isGameOn, setIsGameOn] = useState(false);
 
-    function startGame(e) {
+    async function startGame(e) {
         e.preventDefault();
-        setIsGameOn(true)
+        try {
+            const res = await fetch(`https://emojihub.yurace.pro/api/all/category/animals-and-nature`);
+            const data = await res.json();
+            console.log(data)
+            setIsGameOn(true)
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     function turnCard()
