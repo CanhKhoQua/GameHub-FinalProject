@@ -72,56 +72,50 @@ Memory Card Game
 }
 
 .card-item {
-  list-style: none;
-}
-
-/* Card game button */
-.btn-emoji {
-  width: 100%;
+  width: 100px;
   height: 100px;
-  font-size: 2.5em;
-  border: 2px solid var(--light-primary);
-  border-radius: .8em;
-  cursor: pointer;
-  padding: 0;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  transition: all 0.5s ease;
 }
 
-/* Animated memory card */
-.card-item--selected,
-.card-item--matched,
-.btn--emoji__back--selected,
-.btn--emoji__back--matched {
-    transform: rotateY(180deg);
+.card-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.card-item--selected {
-  transition: .6s;
-  transform-style: preserve-3d;
+.card-item::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    0deg, 
+    transparent, 
+    transparent 30%, 
+    rgba(0,255,255,0.3)
+  );
+  transform: rotate(-45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
 }
 
-.btn--emoji__front,
-.btn--emoji__back--selected {
-  backface-visibility: hidden;    
+.card-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
 }
 
-.btn--emoji__back--matched {
-  backface-visibility: unset;
-  background-color: var(--btn-disabled);
-  border: 2px solid var(--btn-disabled);
-  cursor: not-allowed;
-}
-
-.btn--emoji__front:hover,
-.btn--emoji__front:focus {
-  background-color: var(--accent);
-  border: 2px solid var(--dark-primary);
-  box-shadow: 0 0 5px 2px var(--light-primary);
-  cursor: pointer;
-}
-
-.card-item--selected .btn--emoji__back--selected {
-  border: 2px solid var(--dark-primary);
-  box-shadow: 0 0 5px 2px var(--light-primary);
+.card-item:hover::before {
+  opacity: 1;
+  transform: rotate(-45deg) translateY(100%);
 }
 
 @media (prefers-color-scheme: light) {

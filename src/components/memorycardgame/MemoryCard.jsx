@@ -1,17 +1,16 @@
-export default function MemoryCard({handleClick})
+export default function MemoryCard({handleClick, data})
 {
-    const emojiArr = ['🐶', '🐷', '🐙', '🐛', '🐵', '🐶', '🐷', '🐙', '🐛', '🐵'];
-    const emojiEl = emojiArr.map((emoji, index)=>
-            <li key={index} className="card-item">
-            <button className="btn-emoji" onClick={handleClick}>
-                {emoji}
-            </button>
+    console.log(data)
+
+    const imgList = data.map((img, index)=>
+        <li key={index} className="card-item">
+            <img src={img} onClick={handleClick} />
         </li>
     )
 
     return (
-        <>
-        <ul className="card-container">{emojiEl}</ul>
-        </>
-    )
+        <ul className="card-container">
+            {imgList}
+        </ul>
+    );
 }
