@@ -1,7 +1,5 @@
 export default function MemoryCard({handleClick, data})
 {
-    console.log(data)
-
     const imgList = data.map((img, index)=>
         <li key={index} className="card-item">
             <img src={img} onClick={handleClick} />

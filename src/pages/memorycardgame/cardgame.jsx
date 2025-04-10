@@ -16,21 +16,59 @@ export default function Cardgame()
             throw new Error ("Failed to fetch API");
         }
         const data = await res.json();
-        const champNames = Object.keys(data.data);
+        const allChampNames = Object.keys(data.data);
         
-        //get champion name
-        const dataSample = champNames.slice(0,10);
-        return dataSample;
+        //Checking
+        console.log(allChampNames.length);
+
+        //get champion names
+        const champsName = getDataSlice(allChampNames);
+
+        const champsShuffledArr = getChampsArr(champsName);
+        return champsShuffledArr;
 
         }catch(e)
         {
             console.error(e);
         }
     }
+    //retrieve champs name from certain index
+    function getDataSlice(data)
+    {
+        const ranIndices = getRandomIndices(data);
+        const dataSlice = ranIndices.map(index => data[index]);
+        return dataSlice;
+    }
+
+    //get random index of champs
+    function getRandomIndices(data)
+    {
+        let randomIndicesArr = [];
+        for(let i=0; i<=9; i++)
+        {
+            let ranNum = Math.floor(Math.random() * data.length);
+            if(!randomIndicesArr.includes(ranNum))
+            {
+                randomIndicesArr.push(ranNum);
+            }else
+            {
+                i--;
+            }
+            console.log(ranNum);
+        }
+        return randomIndicesArr;
+    }
+
+    //duplicate and shuffle champs arr
+    function getChampsArr(data)
+    {
+        let pairedChampsArr = [...data, ...data];
+        return pairedChampsArr;
+    }
 
     async function getChampsURL()
     {
-        var imgURL = [];
+        let imgURL = [];
         const data = await getChampsName();
 
         //plug champs name to fetch champs img
