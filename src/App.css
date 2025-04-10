@@ -1,4 +1,3 @@
-/* General layout */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -6,7 +5,6 @@
   text-align: center;
 }
 
-/* Logos */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -37,17 +35,14 @@
   }
 }
 
-/* Cards */
 .card {
   padding: 2em;
 }
 
-/* Docs link */
 .read-the-docs {
   color: #888;
 }
 
-/* Rock Paper Scissors Styles */
 .rps-container {
   padding: 1rem;
   max-width: 400px;
@@ -107,3 +102,29 @@
   margin-top: 1rem;
   font-weight: 600;
 }
+.rps-scoreboard p {
+  margin: 0.25rem 0;
+  font-size: 1rem;
+}
+
+.rps-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.rps-reset {
+  padding: 0.5rem 1rem;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rps-reset:hover {
+  background-color: #dc2626;
+}
+
