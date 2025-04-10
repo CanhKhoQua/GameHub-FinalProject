@@ -1,3 +1,4 @@
+/* General layout */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,15 +6,18 @@
   text-align: center;
 }
 
+/* Logos */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -33,10 +37,73 @@
   }
 }
 
+/* Cards */
 .card {
   padding: 2em;
 }
 
+/* Docs link */
 .read-the-docs {
   color: #888;
+}
+
+/* Rock Paper Scissors Styles */
+.rps-container {
+  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.rps-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.rps-player {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.rps-buttons {
+  margin-bottom: 1rem;
+}
+
+.rps-button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rps-button:hover {
+  background-color: #2563eb;
+}
+
+.rps-button.selected {
+  background-color: #16a34a;
+}
+
+.rps-submit {
+  padding: 0.5rem 1rem;
+  background-color: #9333ea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.rps-submit:hover {
+  background-color: #7e22ce;
+}
+
+.rps-result {
+  margin-top: 1rem;
+  font-weight: 600;
 }

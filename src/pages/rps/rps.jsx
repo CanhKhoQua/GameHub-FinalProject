@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { useUser } from '../../UserContext.jsx';  // Going up two levels to src
-
+import { useUser } from '../../UserContext.jsx';
+import '../../app.css'; // Make sure this is imported if not already
 
 export default function RockPaperScissors() {
     const choices = ["Rock", "Paper", "Scissors"];
-    const [playerChoice, setPlayerChoice] = useState(null);
-    const [computerChoice, setComputerChoice] = useState(null);
+    const [playerChoice, setPlayerChoice] = useState("");
+    const [computerChoice, setComputerChoice] = useState("");
     const [result, setResult] = useState("");
+    const { name } = useUser();
 
-    const playGame = (choice) => {
+    const handleSubmit = () => {
+        if (!playerChoice) {
+            setResult("Please select a move first.");
+            return;
+        }
+
         const computer = choices[Math.floor(Math.random() * choices.length)];
-        setPlayerChoice(choice);
         setComputerChoice(computer);
-        determineWinner(choice, computer);
+        determineWinner(playerChoice, computer);
     };
 
     const determineWinner = (player, computer) => {
@@ -23,33 +28,38 @@ export default function RockPaperScissors() {
             (player === "Paper" && computer === "Rock") ||
             (player === "Scissors" && computer === "Paper")
         ) {
-            setResult("You win!");
+            setResult(`${name || "You"} win!`);
         } else {
             setResult("Computer wins!");
         }
     };
 
     return (
-        <div className="p-4 max-w-md mx-auto text-center">
-            <h1 className="text-2xl font-bold mb-4">Rock Paper Scissors</h1>
-            <div className="space-x-2 mb-4">
+        <div className="rps-container">
+            <h1 className="rps-title">Rock Paper Scissors</h1>
+            <p className="rps-player">{name && `Player: ${name}`}</p>
+            <div className="rps-buttons">
                 {choices.map((choice) => (
                     <button
                         key={choice}
-                        onClick={() => playGame(choice)}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        onClick={() => setPlayerChoice(choice)}
+                        className={`rps-button ${playerChoice === choice ? "selected" : ""}`}
                     >
                         {choice}
                     </button>
                 ))}
             </div>
-            {playerChoice && computerChoice && (
-                <div className="mt-4">
+            <button onClick={handleSubmit} className="rps-submit">
+                Submit
+            </button>
+            {result && (
+                <div className="rps-result">
                     <p>You chose: <strong>{playerChoice}</strong></p>
                     <p>Computer chose: <strong>{computerChoice}</strong></p>
-                    <p className="mt-2 text-lg font-semibold">{result}</p>
+                    <p>{result}</p>
                 </div>
             )}
         </div>
     );
 }
+
