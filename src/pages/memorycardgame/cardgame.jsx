@@ -19,7 +19,7 @@ export default function Cardgame()
         const allChampNames = Object.keys(data.data);
         
         //Checking
-        console.log(allChampNames.length);
+        //console.log(allChampNames.length);
 
         //get champion names
         const champsName = getDataSlice(allChampNames);
@@ -63,6 +63,18 @@ export default function Cardgame()
     function getChampsArr(data)
     {
         let pairedChampsArr = [...data, ...data];
+        console.log(`pairedChampsArr length is ${pairedChampsArr.length}`);
+        let i=pairedChampsArr.length-1;
+
+        while (i>0)
+        {
+            let a = Math.floor(Math.random() * i);
+            const temp = pairedChampsArr[i];
+
+            pairedChampsArr[i] = pairedChampsArr[a];
+            pairedChampsArr[a] = temp;
+            i--;
+        }
         return pairedChampsArr;
     }
 
@@ -71,7 +83,7 @@ export default function Cardgame()
         let imgURL = [];
         const data = await getChampsName();
 
-        //plug champs name to fetch champs img
+        //plug champs name to fetch champs img url into an arr
         imgURL = data.map(name=>
             `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${name}.png`
         )
