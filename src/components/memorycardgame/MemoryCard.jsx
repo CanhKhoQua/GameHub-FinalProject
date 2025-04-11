@@ -2,7 +2,7 @@ export default function MemoryCard({handleClick, data})
 {
     const imgList = data.map((img, index)=>
         <li key={index} className="card-item">
-            <img src={img} onClick={handleClick} />
+            <img src={`https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${img}.png`} onClick={() => handleClick(img, index)} />
         </li>
     )
 

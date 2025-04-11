@@ -5,7 +5,7 @@ import Form from "../../components/memorycardgame/Form";
 export default function Cardgame()
 {
     const [isGameOn, setIsGameOn] = useState(false);
-    const [champsURL, setChampsURL] = useState([]);
+    const [champsName, setChampsName] = useState([]);
 
     async function getChampsName()
     {
@@ -23,9 +23,8 @@ export default function Cardgame()
 
         //get champion names
         const champsName = getDataSlice(allChampNames);
-
         const champsShuffledArr = getChampsArr(champsName);
-        return champsShuffledArr;
+        setChampsName(champsShuffledArr);
 
         }catch(e)
         {
@@ -74,37 +73,27 @@ export default function Cardgame()
             pairedChampsArr[i] = pairedChampsArr[a];
             pairedChampsArr[a] = temp;
             i--;
+            
         }
         return pairedChampsArr;
     }
 
-    async function getChampsURL()
-    {
-        let imgURL = [];
-        const data = await getChampsName();
-
-        //plug champs name to fetch champs img url into an arr
-        imgURL = data.map(name=>
-            `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${name}.png`
-        )
-        setChampsURL(imgURL);
-    }
-
     async function startGame(e) {
         e.preventDefault();
-        getChampsURL();
+        getChampsName();
         setIsGameOn(true);
     }
   
-    function turnCard()
+    function turnCard(name, index)
     {
-        console.log("Memory card clicked")
+        console.log(`Index at ${index}, Name ${name}`);
+        console.log("Memory card clicked");
     }
 
     return (
         <>
             <h1>Memory Card Game</h1>
-            {!isGameOn ? <Form handleSubmit={startGame}/> : <MemoryCard handleClick={turnCard} data={champsURL}/> }
+            {!isGameOn ? <Form handleSubmit={startGame}/> : <MemoryCard handleClick={turnCard} data={champsName}/> }
         </>
     )
 }

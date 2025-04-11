@@ -103,7 +103,6 @@ Memory Card Game
     transparent 30%, 
     rgba(0,255,255,0.3)
   );
-  transform: rotate(-45deg);
   transition: all 0.5s ease;
   opacity: 0;
 }
