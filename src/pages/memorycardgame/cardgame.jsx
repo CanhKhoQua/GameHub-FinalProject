@@ -6,6 +6,8 @@ export default function Cardgame()
 {
     const [isGameOn, setIsGameOn] = useState(false);
     const [champsName, setChampsName] = useState([]);
+    const [selectedCards, setSelectedCards] = useState([]);
+    console.log(selectedCards);
 
     async function getChampsName()
     {
@@ -80,14 +82,21 @@ export default function Cardgame()
 
     async function startGame(e) {
         e.preventDefault();
-        getChampsName();
+        await getChampsName();
         setIsGameOn(true);
     }
-  
+
     function turnCard(name, index)
     {
-        console.log(`Index at ${index}, Name ${name}`);
-        console.log("Memory card clicked");
+        const selectedCardEntry = selectedCards.find(card=> 
+            card.index === index);
+
+        if(!selectedCardEntry && selectedCards.length <2)
+        {
+            setSelectedCards(prevSelectedCards => [...prevSelectedCards, {name, index}]);
+        }else if(selectedCards.length === 2) {
+            setSelectedCards([{name, index}]);
+        }
     }
 
     return (
