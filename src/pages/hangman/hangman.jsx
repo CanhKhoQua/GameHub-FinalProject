@@ -3,7 +3,14 @@ import HangmanDisplay from './hangmanDisplay';
 import WordDisplay from './wordDisplay';
 import Keyboard from './keyboard';
 
-const words = []
+const words = ['ALGORITHM', 'DATABASE', 'FRAMEWORK', 'INTERFACE', 'JAVASCRIPT', 'NETWORK',
+  'PROGRAMMING', 'REACT', 'SERVER', 'SOFTWARE', 'CANYON', 'FOREST', 'GLACIER',
+  'MOUNTAIN', 'OCEAN', 'RIVER', 'SUNSET', 'VOLCANO', 'WATERFALL', 'WILDLIFE',
+  'AVOCADO', 'CHOCOLATE', 'DUMPLING', 'PASTA', 'PIZZA', 'SANDWICH', 'SUSHI',
+  'TACO', 'WAFFLE', 'YOGURT', 'BASEBALL', 'BASKETBALL', 'CRICKET', 'FOOTBALL',
+  'GYMNASTICS', 'HOCKEY', 'RUGBY', 'SOCCER', 'TENNIS', 'VOLLEYBALL',
+  'ADVENTURE', 'BOOKSHELF', 'CANDLELIGHT', 'DAYDREAM', 'FIREPLACE', 'GUITAR',
+  'MYSTERY', 'PUZZLE', 'TREASURE', 'WHIRLPOOL',]
 
 const Hangman = () => {
     const [word, setWord] = useState('');
@@ -30,9 +37,7 @@ const Hangman = () => {
         }
     };
 
-    const isGameWon = word
-        .split('')
-        .every((letter) => guessedLetters.includes(letter));
+    const isGameWon = word.split('').every((letter) => guessedLetters.includes(letter));
     const isGameOver = incorrectGuesses >= maxIncorrect;
 
     return (
