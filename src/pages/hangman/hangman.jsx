@@ -1,31 +1,61 @@
-function Hangman()
-{
+import React, { useState, useEffect } from "react";
+import HangmanDisplay from './hangmanDisplay';
+import WordDisplay from './wordDisplay';
+import Keyboard from './keyboard';
+import { is } from "express/lib/request";
+
+const words = []
+
+const Hangman = () => {
+    const [word, setWord] = useState('');
+    const [guessedLetters, setGuessedLetters] = useState([]);
+    const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+    const maxIncorrect = 6;
+
+    useEffect(() => {
+        resetGame();
+    }, []);
+
+    const resetGame = () => {
+        const randomWord = words[Math.floor(Math.random() * words.length)];
+        setWord(randomWord);
+        setGuessedLetters([]);
+        setIncorrectGuesses(0);
+    };
+
+    const handleGuess = (letter) => {
+        if (guessedLetters.includes(letter)) return;
+        setGuessedLetters([...guessedLetters, letter]);
+        if (!word.includes(letter)) {
+            setIncorrectGuesses(incorrectGuesses + 1);
+        }
+    };
+
+    const isGameWon = word
+        .split('')
+        .every((letter) => guessedLetters.includes(letter));
+    const isGameOver = incorrectGuesses >= maxIncorrect;
+
     return (
-        <div className="hm-container">
-            <div className="hangman-box">
-                <img src="./hangman/assets/hangman-0.svg"></img>
-                <h1>Hangman</h1>
-            </div>
-            <div className="game-box">
-                <ul className="word-display">
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                    <li className="letter"></li>
-                </ul>
-                <h4 className="guess-text">
-                    Incorrect guesses:
-                    <b>0 / 6</b>
-                </h4>
-                <div className="keyboard">
-                    <button>a</button>
+        <div className="hangman-game">
+            <h1>Hangman</h1>
+            <HangmanDisplay incorrectGuesses={incorrectGuesses} />
+            <WordDisplay word={word} guessedLetters={guessedLetters} />
+            <Keyboard guessedLetters={guessedLetters} handleGuess={handleGuess} isGameOver={isGameOver || isGameWon} />
+            {isGameWon && (
+                <div className="game-message">
+                    <p>Congratulations! You won!</p>
+                    <button onClick={resetGame}>Play Again</button>
                 </div>
-            </div>
+            )}
+            {isGameOver && !isGameWon && (
+                <div className="game-message">
+                    <p>Game Over! The word was {word}.</p>
+                    <button onClick={resetGame}>Play Again</button>
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
 
 export default Hangman;
