@@ -1,4 +1,5 @@
 import React from "react";
+import './wordDisplay.css';
 
 const WordDisplay = ({ word, guessedLetters}) => {
     return (

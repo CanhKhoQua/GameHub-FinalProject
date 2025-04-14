@@ -1,0 +1,14 @@
+.word-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Increased gap for clearer separation */
+    font-size: 2.5em; /* Larger font for visibility */
+    margin: 20px 0;
+}
+  
+.letter {
+    width: 40px; /* Wider width for each letter */
+    text-align: center;
+    border-bottom: 2px solid #333; /* Add underline to emphasize each position */
+    padding-bottom: 5px; /* Space between letter and border */
+}
