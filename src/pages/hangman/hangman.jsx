@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import HangmanDisplay from './hangmanDisplay';
 import WordDisplay from './wordDisplay';
 import Keyboard from './keyboard';
-import { is } from "express/lib/request";
 
 const words = []
 
