@@ -1,4 +1,4 @@
-export default function Hangman()
+function Hangman()
 {
     return (
         <div className="hm-container">
@@ -28,3 +28,4 @@ export default function Hangman()
     )
 }
 
+export default Hangman;
