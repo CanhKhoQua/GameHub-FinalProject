@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { useUser } from "../../UserContext.jsx"; // Assuming context is correctly set up
-import "../../App.css"; // Import the CSS file for styles
+import { useState } from "react";
+import { useUser } from '../../UserContext.jsx';
+import './wordles.css';
+
 
 const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;

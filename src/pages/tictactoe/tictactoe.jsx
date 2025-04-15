@@ -56,12 +56,13 @@ export default function TicTacToe() {
       <div className="ttt-board">
         {board.map((cell, i) => (
           <button
-            key={i}
-            className="ttt-cell"
-            onClick={() => handleClick(i)}
-          >
-            {cell}
-          </button>
+          key={i}
+          className={`ttt-cell ${cell === "X" ? "ttt-x" : cell === "O" ? "ttt-o" : ""}`}
+          onClick={() => handleClick(i)}
+        >
+          {cell}
+        </button>
+        
         ))}
       </div>
 

@@ -30,6 +30,9 @@
     border-radius: 8px;
     background-color: #f4f4f4;
     transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   .ttt-cell:hover {
@@ -73,3 +76,14 @@
   .ttt-turn {
     margin-top: 0.5rem;
   }
+
+  .ttt-x {
+    color: #3b82f6; 
+    font-weight: bold;
+  }
+  
+  .ttt-o {
+    color: #ef4444; 
+    font-weight: bold;
+  }
+  
