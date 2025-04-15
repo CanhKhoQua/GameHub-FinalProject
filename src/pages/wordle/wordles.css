@@ -15,7 +15,7 @@
 .ttt-player {
   font-size: 1.2rem;
   margin-bottom: 1rem;
-  color: #333;
+  color: #ccc;
 }
 
 .wordle-board {
@@ -61,7 +61,7 @@
 .wordle-message {
   margin-top: 20px;
   font-size: 1.2em;
-  color: #333;
+  color: #ccc;
 }
 
 .ttt-reset {
