@@ -1,12 +1,10 @@
-import RegularButton from "./RegularButton";
-
 export default function Form({handleSubmit})
 {
     return (
         <form className="card-wrapper">
-            <RegularButton handleClick={handleSubmit}>
+            <button onClick={handleSubmit}>
                 Start Game
-            </RegularButton>
+            </button>
         </form>
     )
 }

@@ -1,12 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MemoryCard from "../../components/memorycardgame/MemoryCard";
 import Form from "../../components/memorycardgame/Form";
+import "../../components/memorycardgame/MemoryCardGame.css";
 
 export default function Cardgame()
 {
     const [isGameOn, setIsGameOn] = useState(false);
     const [champsName, setChampsName] = useState([]);
     const [selectedCards, setSelectedCards] = useState([]);
+    const [matchedCards, setMatchedCards] = useState([]);
+    const [moves,setMoves] = useState(0);
+    const [won,setWon] = useState(0);
     console.log(selectedCards);
 
     async function getChampsName()
@@ -33,19 +37,11 @@ export default function Cardgame()
             console.error(e);
         }
     }
-    //retrieve champs name from certain index
-    function getDataSlice(data)
-    {
-        const ranIndices = getRandomIndices(data);
-        const dataSlice = ranIndices.map(index => data[index]);
-        return dataSlice;
-    }
-
     //get random index of champs
     function getRandomIndices(data)
     {
         let randomIndicesArr = [];
-        for(let i=0; i<=9; i++)
+        for(let i=0; i<=4; i++)
         {
             let ranNum = Math.floor(Math.random() * data.length);
             if(!randomIndicesArr.includes(ranNum))
@@ -60,6 +56,14 @@ export default function Cardgame()
         return randomIndicesArr;
     }
 
+    //retrieve champs name from certain index
+    function getDataSlice(data)
+    {
+        const ranIndices = getRandomIndices(data);
+        const dataSlice = ranIndices.map(index => data[index]);
+        return dataSlice;
+    }
+
     //duplicate and shuffle champs arr
     function getChampsArr(data)
     {
@@ -71,11 +75,10 @@ export default function Cardgame()
         {
             let a = Math.floor(Math.random() * i);
             const temp = pairedChampsArr[i];
-
+            
             pairedChampsArr[i] = pairedChampsArr[a];
             pairedChampsArr[a] = temp;
-            i--;
-            
+            i--;    
         }
         return pairedChampsArr;
     }
@@ -86,23 +89,54 @@ export default function Cardgame()
         setIsGameOn(true);
     }
 
+    function resetGame()
+    {
+
+    }
+
+
     function turnCard(name, index)
     {
-        const selectedCardEntry = selectedCards.find(card=> 
+        const selectedCardCheck = selectedCards.find(card=> 
             card.index === index);
-
-        if(!selectedCardEntry && selectedCards.length <2)
+        const matchedCardsCheck = matchedCards.find(card =>
+            card.name === name);
+        
+        if(matchedCardsCheck)
         {
-            setSelectedCards(prevSelectedCards => [...prevSelectedCards, {name, index}]);
-        }else if(selectedCards.length === 2) {
+            return;
+        }
+        if(!selectedCardCheck && selectedCards.length <2)
+        {
+            setSelectedCards(([...selectedCards,{name,index}]));
+        }else if(selectedCards.length ==2)
+        {
             setSelectedCards([{name, index}]);
         }
     }
 
+    //match check
+    useEffect(()=>
+    {
+        if(selectedCards.length ===2 && selectedCards[0].name === selectedCards[1].name)
+        {
+            console.log(`Matched`);
+            setMatchedCards([...matchedCards, selectedCards[0], selectedCards[1]]);
+            setWon((won)=>won+1);
+            setMoves((moves) => moves+1);
+        }
+        else if(selectedCards.length ===2 && selectedCards[0].name != selectedCards[1].name)
+        {
+            console.log(`No match`);
+            setMoves((moves) => moves+1)
+        }
+    }, [selectedCards])
+
+
     return (
         <>
             <h1>Memory Card Game</h1>
-            {!isGameOn ? <Form handleSubmit={startGame}/> : <MemoryCard handleClick={turnCard} data={champsName}/> }
+            {!isGameOn ? <Form handleSubmit={startGame}/> : <MemoryCard handleClick={turnCard} data={champsName} moves={moves} won={won}/> }
         </>
     )
 }

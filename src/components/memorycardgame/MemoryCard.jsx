@@ -1,4 +1,4 @@
-export default function MemoryCard({handleClick, data})
+export default function MemoryCard({handleClick, data, moves, won})
 {
     const imgList = data.map((img, index)=>
         <li key={index} className="card-item">
@@ -7,8 +7,12 @@ export default function MemoryCard({handleClick, data})
     )
 
     return (
-        <ul className="card-container">
-            {imgList}
-        </ul>
+        <>
+            <p>Moves: {moves}</p>
+            <p>Matched: {won}</p>
+            <ul className="card-container">
+                {imgList}
+            </ul>
+        </>
     );
 }
