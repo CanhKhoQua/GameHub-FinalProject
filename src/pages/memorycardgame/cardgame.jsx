@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
-import MemoryCard from "../../components/memorycardgame/MemoryCard";
-import Form from "../../components/memorycardgame/Form";
 import "../../components/memorycardgame/MemoryCardGame.css";
+import { useUser } from "../../UserContext.jsx";
 
 export default function Cardgame()
 {
-    const [isGameOn, setIsGameOn] = useState(false);
+    const {name} = useUser();
     const [champsName, setChampsName] = useState([]);
     const [selectedCards, setSelectedCards] = useState([]);
     const [matchedCards, setMatchedCards] = useState([]);
@@ -13,30 +12,33 @@ export default function Cardgame()
     const [won,setWon] = useState(0);
     console.log(selectedCards);
 
-    async function getChampsName()
+    useEffect(()=>
     {
-        try {
-        const res = await fetch(`https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json`);
-        if(!res.ok)
-        {
-            throw new Error ("Failed to fetch API");
-        }
-        const data = await res.json();
-        const allChampNames = Object.keys(data.data);
-        
-        //Checking
-        //console.log(allChampNames.length);
+        const fetchData = async() => {
+            try {
+            const res = await fetch(`https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json`);
+            if(!res.ok)
+            {
+                throw new Error ("Failed to fetch API");
+            }
+            const data = await res.json();
+            const allChampNames = Object.keys(data.data);
+            
+            //Checking
+            //console.log(allChampNames.length);
 
-        //get champion names
-        const champsName = getDataSlice(allChampNames);
-        const champsShuffledArr = getChampsArr(champsName);
-        setChampsName(champsShuffledArr);
+            //get champion names
+            const champsName = getDataSlice(allChampNames);
+            const champsShuffledArr = getChampsArr(champsName);
+            setChampsName(champsShuffledArr);
+            }catch(e)
+            {
+                console.error(e);
+            }
+        };
+        fetchData();
+    },[])
 
-        }catch(e)
-        {
-            console.error(e);
-        }
-    }
     //get random index of champs
     function getRandomIndices(data)
     {
@@ -83,12 +85,6 @@ export default function Cardgame()
         return pairedChampsArr;
     }
 
-    async function startGame(e) {
-        e.preventDefault();
-        await getChampsName();
-        setIsGameOn(true);
-    }
-
     function resetGame()
     {
 
@@ -132,11 +128,24 @@ export default function Cardgame()
         }
     }, [selectedCards])
 
+    const champImages = champsName.map((img, index) => {
+        const imageUrl = `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${img}.png`;
+        return (
+            <li key={index} className="card-item">
+                <img src={imageUrl} onClick={() => turnCard(img, index)} />
+            </li>
+        );
+    });
 
     return (
         <>
             <h1>Memory Card Game</h1>
-            {!isGameOn ? <Form handleSubmit={startGame}/> : <MemoryCard handleClick={turnCard} data={champsName} moves={moves} won={won}/> }
+            <p>Player: {name}</p>
+            <p>Moves: {moves}</p>
+            <p>Matched: {won}</p>
+            <ul className="card-container">
+                {champImages}
+            </ul>
         </>
     )
 }
