@@ -18,6 +18,7 @@ const words = [
     'BREEZE',
     'BUTTERFLY',
     'BOOKSHELF',
+    'BUNGEE',
     'CAMERA',
     'CANDLELIGHT',
     'CANYON',
