@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import HangmanDisplay from './hangmanDisplay';
 import WordDisplay from './wordDisplay';
 import Keyboard from './keyboard';
+import { useUser } from "../../UserContext.jsx";
 
 const words = [
     'ADVENTURE',
@@ -109,7 +110,8 @@ const words = [
     'YOGURT'
   ];
 
-const Hangman = () => {
+export default function Hangman() {
+    const { name } = useUser();
     const [word, setWord] = useState('');
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [incorrectGuesses, setIncorrectGuesses] = useState(0);
@@ -140,6 +142,7 @@ const Hangman = () => {
     return (
         <div className="hangman-game">
             <h1>Hangman</h1>
+            <p>Player <strong>{name || "Player"}</strong></p>
             <HangmanDisplay incorrectGuesses={incorrectGuesses} />
             <WordDisplay word={word} guessedLetters={guessedLetters} />
             <Keyboard guessedLetters={guessedLetters} handleGuess={handleGuess} isGameOver={isGameOver || isGameWon} />
@@ -159,4 +162,3 @@ const Hangman = () => {
     );
 };
 
-export default Hangman;
