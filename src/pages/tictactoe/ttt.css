@@ -1,0 +1,75 @@
+.ttt-container {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .ttt-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .ttt-player {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  .ttt-board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-gap: 10px;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  
+  .ttt-cell {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    cursor: pointer;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #f4f4f4;
+    transition: background-color 0.2s;
+  }
+  
+  .ttt-cell:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .ttt-status {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+  }
+  
+  .ttt-reset {
+    padding: 0.5rem 1rem;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .ttt-reset:hover {
+    background-color: #4f46e5;
+  }
+  
+  .ttt-players {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  
+  .ttt-x {
+    color: #3b82f6; 
+    font-weight: bold;
+  }
+  
+  .ttt-o {
+    color: #ef4444; 
+    font-weight: bold;
+  }
+  
+  .ttt-turn {
+    margin-top: 0.5rem;
+  }

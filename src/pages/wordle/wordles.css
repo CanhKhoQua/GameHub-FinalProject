@@ -1,0 +1,77 @@
+.wordle-container {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .ttt-player {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+  }
+  
+  .wordle-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .wordle-board {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px;
+  }
+  
+  .wordle-row {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .wordle-cell {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .wordle-cell.correct {
+    background-color: green;
+    color: white;
+  }
+  
+  .wordle-cell.close {
+    background-color: yellow;
+    color: white;
+  }
+  
+  .wordle-cell.wrong {
+    background-color: gray;
+    color: white;
+  }
+  
+  .wordle-message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .ttt-reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .ttt-reset:hover {
+    background-color: darkblue;
+  }

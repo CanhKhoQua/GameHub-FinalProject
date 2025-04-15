@@ -9,9 +9,11 @@ import Cardgame from './pages/memorycardgame/cardgame.jsx'
 import RockPaperScisor from './pages/rps/rps.jsx'
 import TicTacToe from './pages/tictactoe/tictactoe.jsx'
 import Wordle from './pages/wordle/wordle.jsx'
-import { UserProvider, useUser } from './UserContext.jsx' // ✅ Import context
+import { UserProvider, useUser } from './UserContext.jsx' 
+import './pages/rps/rockpaperscissors.css'
+import './pages/tictactoe/ttt.css'
+import './pages/wordle/wordles.css'
 
-// ✅ Layout can now use user context
 function Layout() {
   const { name, setName } = useUser();
 
