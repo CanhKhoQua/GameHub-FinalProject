@@ -4,7 +4,7 @@ import WordDisplay from './wordDisplay';
 import Keyboard from './keyboard';
 import { useUser } from "../../UserContext.jsx";
 
-const words = [
+const fallbackWords = [
     'ADVENTURE',
     'ALGORITHM',
     'ARCHITECTURE',
@@ -116,14 +116,35 @@ export default function Hangman() {
     const [word, setWord] = useState('');
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [incorrectGuesses, setIncorrectGuesses] = useState(0);
+    const [wordBank, setWordBank] = useState(null);
     const maxIncorrect = 6;
 
-    useEffect(() => {
-        resetGame();
+    useEffect (() => {
+        //fetch words from API on mount
+        const fetchWords = async () => {
+            try {
+                const response = await fetch('https://random-word-api.herokuapp.com/all');
+                const data = await response.json();
+                //filter words: 5-12 letters, only letters, no special char
+                const filteredWords = data.filter(word => word.length >= 5 && word.length <= 12 && /^[a-zA-Z]+$/.test(word)).map(word => word.toUpperCase());
+                setWordBank(filteredWords.length > 0 ? filteredWords : fallbackWords);
+            } catch (error) {
+                console.error('Failed to fetch words:', error);
+                setWordBank(fallbackWords); //use fallback if API fails
+            }
+        };
+        fetchWords();
     }, []);
 
+    useEffect(() => {
+        if (wordBank) {
+            resetGame();
+        }
+    }, [wordBank]);
+
     const resetGame = () => {
-        const randomWord = words[Math.floor(Math.random() * words.length)];
+        if (!wordBank) return; //wait for wordbank to be set
+        const randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
         setWord(randomWord);
         setGuessedLetters([]);
         setIncorrectGuesses(0);
@@ -139,6 +160,11 @@ export default function Hangman() {
 
     const isGameWon = word.split('').every((letter) => guessedLetters.includes(letter));
     const isGameOver = incorrectGuesses >= maxIncorrect;
+
+    //show loading state unitil wordBank is ready
+    if (!wordBank || !word) {
+        return;
+    }
 
     return (
         <div className="hangman-game">
