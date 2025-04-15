@@ -6,14 +6,13 @@ const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;
 
 export default function Wordle() {
-  const { name } = useUser(); // Assuming you're using a UserContext for storing user data
+  const { name } = useUser(); 
   const [guesses, setGuesses] = useState([]);
   const [currentGuess, setCurrentGuess] = useState("");
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState("");
 
-  // Fetch random word on mount
   useEffect(() => {
     fetchRandomWord();
   }, []);
@@ -25,7 +24,7 @@ export default function Wordle() {
       setAnswer(data[0].toUpperCase());
     } catch (err) {
       console.error("Error fetching word:", err);
-      setAnswer("REACT"); // fallback word if API fails
+      setAnswer("REACT"); 
     }
   };
 
@@ -40,7 +39,7 @@ export default function Wordle() {
   };
 
   const handleInput = async (e) => {
-    console.log("Key pressed:", e.key); // Debugging the key press
+    console.log("Key pressed:", e.key); 
 
     if (gameOver) return;
 
@@ -95,7 +94,7 @@ export default function Wordle() {
     setCurrentGuess("");
     setGameOver(false);
     setMessage("");
-    fetchRandomWord(); // fetch a new word
+    fetchRandomWord(); 
   };
 
   return (

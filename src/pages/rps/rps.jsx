@@ -87,7 +87,6 @@ export default function RockPaperScissors() {
       updatedState.player2Choice = playerChoice;
     }
 
-    // Check if both choices exist
     if (updatedState.player1Choice && updatedState.player2Choice) {
       const p1 = updatedState.player1Choice;
       const p2 = updatedState.player2Choice;
