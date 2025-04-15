@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from '../../UserContext.jsx';
-import '../../app.css';
+import './rockpaperscissors.css';
+
 
 export default function RockPaperScissors() {
     const choices = ["Rock", "Paper", "Scissors"];

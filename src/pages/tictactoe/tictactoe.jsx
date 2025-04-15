@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUser } from "../../UserContext.jsx";
-import "../../app.css";
+import './ttt.css';
 
 export default function TicTacToe() {
   const { name } = useUser();

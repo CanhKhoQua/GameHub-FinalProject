@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUser } from '../../UserContext.jsx';
 import './wordles.css';
-
 
 const WORD_LENGTH = 5;
 const MAX_GUESSES = 6;
@@ -41,6 +40,8 @@ export default function Wordle() {
   };
 
   const handleInput = async (e) => {
+    console.log("Key pressed:", e.key); // Debugging the key press
+
     if (gameOver) return;
 
     if (e.key === "Enter") {
@@ -98,18 +99,23 @@ export default function Wordle() {
   };
 
   return (
-    <div className="wordle-container">
-      <h1>Wordle</h1>
+    <div className="wordle-container" tabIndex="0">
+      <h1 className="wordle-title">Wordle</h1>
       {name && <p className="ttt-player">Player: {name}</p>}
 
       <div className="wordle-board">
         {[...Array(MAX_GUESSES)].map((_, rowIndex) => {
-          const guess = guesses[rowIndex] || "";
+          let guess = guesses[rowIndex] || "";
+          if (rowIndex === guesses.length && !gameOver) {
+            guess = currentGuess;
+          }
           return (
             <div className="wordle-row" key={rowIndex}>
               {[...Array(WORD_LENGTH)].map((_, colIndex) => {
                 const letter = guess[colIndex] || "";
-                const status = guess ? getLetterStatus(letter, colIndex) : "";
+                const status = guesses[rowIndex]
+                  ? getLetterStatus(letter, colIndex)
+                  : "";
                 return (
                   <div key={colIndex} className={`wordle-cell ${status}`}>
                     {letter}
@@ -131,5 +137,7 @@ export default function Wordle() {
     </div>
   );
 }
+
+
 
 
