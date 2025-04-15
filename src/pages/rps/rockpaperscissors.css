@@ -4,35 +4,33 @@
     margin: 0 auto;
     text-align: center;
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f9fafb;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
   .rps-title {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: #1f2937;
+    color: white;
   }
   
   .rps-player {
     font-style: italic;
-    color: #4b5563;
+    color: white;
     margin-bottom: 1rem;
   }
   
   .rps-scoreboard {
     margin: 1rem 0;
     padding: 0.5rem;
-    background-color: #e5e7eb;
     border-radius: 8px;
+    color: white;
   }
   
   .rps-scoreboard p {
     margin: 0.25rem 0;
     font-size: 1rem;
-    color: #111827;
+    color: white;
   }
   
   .rps-buttons {
@@ -106,9 +104,8 @@
   
   .rps-room-code {
     margin-bottom: 1rem;
-    color: #374151;
+    color: white;
     font-weight: bold;
-    background-color: #f3f4f6;
     padding: 0.5rem;
     border-radius: 6px;
   }

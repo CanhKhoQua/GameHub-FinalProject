@@ -168,15 +168,16 @@ export default function RockPaperScissors() {
 
       {roomId && (
         <>
-          <p><strong>Room Code:</strong> {roomId}</p>
-          <div className="rps-scoreboard">
-            {gameState &&
-              Object.entries(gameState.scores).map(([player, score]) => (
-                <p key={player}>
-                  <strong>{player}:</strong> {score}
-                </p>
-              ))}
+        {}
+         <div className="rps-scoreboard">
+          {gameState &&
+          Object.entries(gameState.scores).map(([player, score]) => (
+          <p key={player}>
+            <strong>{player}:</strong> {score}
+          </p>
+            ))}
           </div>
+
 
           <div className="rps-buttons">
             {choices.map((choice) => (
