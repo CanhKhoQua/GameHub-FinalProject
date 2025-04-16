@@ -11,31 +11,33 @@ export default function Cardgame()
     const [moves,setMoves] = useState(0);
     const [won,setWon] = useState(0);
     console.log(selectedCards);
+    const champsAmount = 5;
+
+    const fetchData = async() => {
+        try {
+        const res = await fetch(`https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json`);
+        if(!res.ok)
+        {
+            throw new Error ("Failed to fetch API");
+        }
+        const data = await res.json();
+        const allChampNames = Object.keys(data.data);
+        
+        //Checking
+        //console.log(allChampNames.length);
+
+        //get champion names
+        const champsName = getDataSlice(allChampNames);
+        const champsShuffledArr = getChampsArr(champsName);
+        setChampsName(champsShuffledArr);
+        }catch(e)
+        {
+            console.error(e);
+        }
+    };
 
     useEffect(()=>
     {
-        const fetchData = async() => {
-            try {
-            const res = await fetch(`https://ddragon.leagueoflegends.com/cdn/12.6.1/data/en_US/champion.json`);
-            if(!res.ok)
-            {
-                throw new Error ("Failed to fetch API");
-            }
-            const data = await res.json();
-            const allChampNames = Object.keys(data.data);
-            
-            //Checking
-            //console.log(allChampNames.length);
-
-            //get champion names
-            const champsName = getDataSlice(allChampNames);
-            const champsShuffledArr = getChampsArr(champsName);
-            setChampsName(champsShuffledArr);
-            }catch(e)
-            {
-                console.error(e);
-            }
-        };
         fetchData();
     },[])
 
@@ -43,7 +45,7 @@ export default function Cardgame()
     function getRandomIndices(data)
     {
         let randomIndicesArr = [];
-        for(let i=0; i<=4; i++)
+        for(let i=1; i<=champsAmount; i++)
         {
             let ranNum = Math.floor(Math.random() * data.length);
             if(!randomIndicesArr.includes(ranNum))
@@ -85,55 +87,64 @@ export default function Cardgame()
         return pairedChampsArr;
     }
 
-    function resetGame()
-    {
-
+    function resetGame() {
+        setChampsName([]);
+        setSelectedCards([]);
+        setMatchedCards([]);
+        setMoves(0);
+        setWon(0);
+        fetchData();
     }
 
-
-    function turnCard(name, index)
-    {
-        const selectedCardCheck = selectedCards.find(card=> 
-            card.index === index);
-        const matchedCardsCheck = matchedCards.find(card =>
-            card.name === name);
-        
-        if(matchedCardsCheck)
-        {
+    function turnCard(name, index) {
+        const selectedCardCheck = selectedCards.find(card => card.index === index);
+        const matchedCardsCheck = matchedCards.find(card => card.index === index);
+    
+        if (matchedCardsCheck || selectedCardCheck) {
             return;
         }
-        if(!selectedCardCheck && selectedCards.length <2)
+    
+        if (selectedCards.length === 1) {
+            const firstCard = selectedCards[0];
+            const secondCard = { name, index };
+            setSelectedCards([firstCard, secondCard]);
+            setMoves((moves)=>moves + 1);
+    
+            if (firstCard.name === secondCard.name) {
+                setMatchedCards([...matchedCards, firstCard, secondCard]);
+                setWon(won + 1);
+            }
+        }
+        else
         {
-            setSelectedCards(([...selectedCards,{name,index}]));
-        }else if(selectedCards.length ==2)
-        {
-            setSelectedCards([{name, index}]);
+            setSelectedCards([{ name, index }]);
         }
     }
-
-    //match check
-    useEffect(()=>
-    {
-        if(selectedCards.length ===2 && selectedCards[0].name === selectedCards[1].name)
-        {
-            console.log(`Matched`);
-            setMatchedCards([...matchedCards, selectedCards[0], selectedCards[1]]);
-            setWon((won)=>won+1);
-            setMoves((moves) => moves+1);
+    
+    //game done check
+    useEffect(() => {
+        if (matchedCards.length === champsName.length) {
+            console.log("Game finished!");
         }
-        else if(selectedCards.length ===2 && selectedCards[0].name != selectedCards[1].name)
-        {
-            console.log(`No match`);
-            setMoves((moves) => moves+1)
-        }
-    }, [selectedCards])
+    }, [matchedCards]);
+    
+    const champImages = champsName.map((name, index) => {
+        const imageUrl = `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${name}.png`;
+        const selectedCardCheck = selectedCards.find(card=>card.index === index);
+        const matchedCardsCheck = matchedCards.find(card=>card.index=== index);
 
-    const champImages = champsName.map((img, index) => {
-        const imageUrl = `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${img}.png`;
+        const showImage = selectedCardCheck || matchedCardsCheck;
+
+        const cardStyle = 
+        matchedCardsCheck ? "card-item card-item--matched nohover" :
+        selectedCardCheck ? "card-item card-item--selected" : "card-item";
+
         return (
-            <li key={index} className="card-item">
-                <img src={imageUrl} onClick={() => turnCard(img, index)} />
-            </li>
+            <li key={index} className={`${cardStyle}`} onClick={() => turnCard(name, index)}>
+            {showImage 
+                ? <img src={imageUrl} /> 
+                : <img src="src/pages/memorycardgame/bearcatlogo.png" />
+            }            </li>
         );
     });
 
@@ -142,10 +153,14 @@ export default function Cardgame()
             <h1>Memory Card Game</h1>
             <p>Player: {name}</p>
             <p>Moves: {moves}</p>
-            <p>Matched: {won}</p>
+            <p>Matches: {won}</p>
             <ul className="card-container">
                 {champImages}
             </ul>
+            <div>
+                {won === champsName.length/2 ? (<p>{name} won the game</p>) : ([])}
+                <button onClick={resetGame}>Reset Game</button>
+            </div>
         </>
     )
 }
