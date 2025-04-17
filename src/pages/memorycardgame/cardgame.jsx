@@ -108,7 +108,6 @@ export default function Cardgame()
             const firstCard = selectedCards[0];
             const secondCard = { name, index };
             setSelectedCards([firstCard, secondCard]);
-            setMoves((moves)=>moves + 1);
     
             if (firstCard.name === secondCard.name) {
                 setMatchedCards([...matchedCards, firstCard, secondCard]);
@@ -118,6 +117,7 @@ export default function Cardgame()
         else
         {
             setSelectedCards([{ name, index }]);
+            setMoves((moves)=>moves + 1);
         }
     }
     

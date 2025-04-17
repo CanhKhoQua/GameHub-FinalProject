@@ -23,11 +23,6 @@ Memory Card Game
     object-fit: cover;
   }
   
-  .card-item::before {
-    transition: all 0s ease;
-    opacity: 0;
-  }
-  
   .card-item:not(.nohover):hover {
     transform: scale(1.05);
     box-shadow: 0 0 20px rgba(0,255,255,0.5);
@@ -42,4 +37,5 @@ Memory Card Game
 .card-item--selected {
   transition: 0s;
   transform-style: preserve-3d;
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
 }
