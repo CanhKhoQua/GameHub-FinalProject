@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "../../components/memorycardgame/MemoryCardGame.css";
+import "./MemoryCardGame.css";
 import { useUser } from "../../UserContext.jsx";
 
 export default function Cardgame()
@@ -120,13 +120,6 @@ export default function Cardgame()
             setSelectedCards([{ name, index }]);
         }
     }
-    
-    //game done check
-    useEffect(() => {
-        if (matchedCards.length === champsName.length) {
-            console.log("Game finished!");
-        }
-    }, [matchedCards]);
     
     const champImages = champsName.map((name, index) => {
         const imageUrl = `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${name}.png`;

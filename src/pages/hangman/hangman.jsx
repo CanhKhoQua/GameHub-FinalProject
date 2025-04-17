@@ -167,7 +167,7 @@ export default function Hangman() {
     }
 
     return (
-        <div className="hangman-game">
+        <div>
             <h1>Hangman</h1>
             <p>Player <strong>{name || "Player"}</strong></p>
             <HangmanDisplay incorrectGuesses={incorrectGuesses} />
