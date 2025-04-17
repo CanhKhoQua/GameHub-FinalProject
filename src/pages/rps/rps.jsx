@@ -23,7 +23,7 @@ export default function RockPaperScissors() {
           player2: null,
           player1Choice: null,
           player2Choice: null,
-          scores: { [name]: 0, opponent: 0 },
+          scores: { [name]: 0 },
           result: null,
         },
       }),
@@ -45,7 +45,7 @@ export default function RockPaperScissors() {
       player2: name,
       scores: {
         ...data.gameState.scores,
-        [name]: 0,
+        [name]: data.gameState.scores[name] || 0,
       },
     };
 
@@ -91,18 +91,18 @@ export default function RockPaperScissors() {
       const p1 = updatedState.player1Choice;
       const p2 = updatedState.player2Choice;
 
-      let result = "";
+      let result = `${gameState.player1} picked ${p1}, ${gameState.player2} picked ${p2}. `;
       if (p1 === p2) {
-        result = "It's a tie!";
+        result += "It's a tie!";
       } else if (
         (p1 === "Rock" && p2 === "Scissors") ||
         (p1 === "Paper" && p2 === "Rock") ||
         (p1 === "Scissors" && p2 === "Paper")
       ) {
-        result = `${gameState.player1} wins!`;
+        result += `${gameState.player1} wins!`;
         updatedState.scores[gameState.player1]++;
       } else {
-        result = `${gameState.player2} wins!`;
+        result += `${gameState.player2} wins!`;
         updatedState.scores[gameState.player2]++;
       }
 
@@ -167,16 +167,18 @@ export default function RockPaperScissors() {
 
       {roomId && (
         <>
-        {}
-         <div className="rps-scoreboard">
-          {gameState &&
-          Object.entries(gameState.scores).map(([player, score]) => (
-          <p key={player}>
-            <strong>{player}:</strong> {score}
-          </p>
-            ))}
-          </div>
+          {!gameState?.player2 && (
+            <p className="rps-waiting">Waiting for another player to join...</p>
+          )}
 
+          <div className="rps-scoreboard">
+            {gameState &&
+              Object.entries(gameState.scores).map(([player, score]) => (
+                <p key={player}>
+                  <strong>{player}:</strong> {score}
+                </p>
+              ))}
+          </div>
 
           <div className="rps-buttons">
             {choices.map((choice) => (
@@ -211,4 +213,3 @@ export default function RockPaperScissors() {
     </div>
   );
 }
-
