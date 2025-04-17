@@ -143,7 +143,7 @@ export default function Cardgame()
             <li key={index} className={`${cardStyle}`} onClick={() => turnCard(name, index)}>
             {showImage 
                 ? <img src={imageUrl} /> 
-                : <img src="src/pages/memorycardgame/bearcatlogo.png" />
+                : <img src="src/pages/memorycardgame/chest.png" />
             }            </li>
         );
     });
