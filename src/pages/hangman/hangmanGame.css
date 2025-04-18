@@ -15,6 +15,21 @@
     margin: 5px 0;
   }
   
+  .score-display button {
+    padding: 5px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    background-color: #d32f2f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  .score-display button:hover {
+    background-color: #b71c1c;
+  }
+  
   .difficulty-selector {
     margin: 15px 0;
     font-size: 1.1em;

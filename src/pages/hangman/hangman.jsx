@@ -32,9 +32,11 @@ export default function Hangman() {
   const [wordBank, setWordBank] = useState(null);
   const [difficulty, setDifficulty] = useState('medium');
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(
-    parseInt(localStorage.getItem(`highScore_${name || 'Player'}`)) || 0
-  );
+  const [highScore, setHighScore] = useState(() => {
+    const storedScore = parseInt(localStorage.getItem(`highScore_${name || 'Player'}`)) || 0;
+    console.log('Initial highScore:', storedScore);
+    return storedScore;
+  });
   const maxIncorrect = 6;
 
   const lengthRanges = {
@@ -55,7 +57,6 @@ export default function Hangman() {
     hard: 100
   };
 
-  // Define isGameWon and isGameOver before useEffect
   const isGameWon = word && word.split('').every((letter) => guessedLetters.includes(letter));
   const isGameOver = incorrectGuesses >= maxIncorrect;
 
@@ -88,8 +89,10 @@ export default function Hangman() {
     if (isGameWon) {
       const bonus = (maxIncorrect - incorrectGuesses) * winBonusMultiplier[difficulty];
       const newScore = score + bonus;
+      console.log('Game won! Score:', score, 'Bonus:', bonus, 'New Score:', newScore);
       setScore(newScore);
       if (newScore > highScore) {
+        console.log('Updating highScore from', highScore, 'to', newScore);
         setHighScore(newScore);
         localStorage.setItem(`highScore_${name || 'Player'}`, newScore);
       }
@@ -128,6 +131,14 @@ export default function Hangman() {
       <div className="score-display">
         <p>Score: {score}</p>
         <p>High Score: {highScore}</p>
+        <button
+          onClick={() => {
+            setHighScore(0);
+            localStorage.removeItem(`highScore_${name || 'Player'}`);
+          }}
+        >
+          Reset High Score
+        </button>
       </div>
       <div className="difficulty-selector">
         <label htmlFor="difficulty">Difficulty: </label>
