@@ -133,17 +133,15 @@ export default function Cardgame()
         if (level === "Easy") 
         {
             setChampsAmount(5);
-            setGameOn(true);
         }
         else if (level === "Medium")
         {
             setChampsAmount(10);
-            setGameOn(true);
         }
         else if (level === "Hard") 
         {   setChampsAmount(15);
-            setGameOn(true);
         }
+        setGameOn(true);
     };
 
     useEffect(() =>
@@ -183,10 +181,10 @@ export default function Cardgame()
         );
     });
 
-    function MemoryCardGame()
-    {
-        return (
-            <> 
+    return (
+        <>
+            <h1>Memory Card Game</h1>
+            {!gameOn ? <GameMode/> : <> 
             <p>Player: {name}</p>
             <p>Moves: {moves}</p>
             <p>Matches: {won}</p>
@@ -198,14 +196,6 @@ export default function Cardgame()
                 <button onClick={resetGame}>Reset Game</button>
                 <button onClick={()=>setGameOn(false)}>Game Mode</button>
             </div></>
-        )
-    }
-
-
-    return (
-        <>
-            <h1>Memory Card Game</h1>
-            {!gameOn ? <GameMode/> : <MemoryCardGame/>
             }
         </>
     )
