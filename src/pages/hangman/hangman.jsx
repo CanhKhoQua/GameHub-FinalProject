@@ -123,7 +123,7 @@ export default function Hangman() {
         //fetch words from API on mount
         const fetchWords = async () => {
             try {
-                const response = await fetch('https://random-word-api.herokuapp.com/all');
+                const response = await fetch('https://random-word-api.vercel.app/api?words=100');
                 const data = await response.json();
                 //filter words: 5-12 letters, only letters, no special char
                 const filteredWords = data.filter(word => word.length >= 5 && word.length <= 12 && /^[a-zA-Z]+$/.test(word)).map(word => word.toUpperCase());
