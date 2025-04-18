@@ -6,6 +6,15 @@
     min-height: 100vh;
   }
   
+  .score-display {
+    margin: 10px 0;
+    font-size: 1.1em;
+  }
+  
+  .score-display p {
+    margin: 5px 0;
+  }
+  
   .difficulty-selector {
     margin: 15px 0;
     font-size: 1.1em;
