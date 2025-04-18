@@ -19,7 +19,7 @@ export default function Wordle() {
 
   const fetchRandomWord = async () => {
     try {
-      const res = await fetch(`https://random-word-api.herokuapp.com/word?length=${WORD_LENGTH}`);
+      const res = await fetch(`https://it3049c-hangman.fly.dev`);
       const data = await res.json();
       setAnswer(data[0].toUpperCase());
     } catch (err) {
