@@ -109,6 +109,7 @@ export default function Hangman() {
     setIncorrectGuesses(0);
     setScore(0);
     setHasScoredWin(false); // Reset win scoring flag
+    console.log('Selected word:', randomWord);
   };
 
   const handleGuess = (letter) => {
