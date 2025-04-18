@@ -1,12 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../UserContext.jsx";
 import './ttt.css';
+
+const API_URL = "https://game-room-api.fly.dev/api/rooms";
 
 export default function TicTacToe() {
   const { name } = useUser();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXTurn, setIsXTurn] = useState(true);
   const [winner, setWinner] = useState(null);
+  const [gameState, setGameState] = useState(null);
+  const [roomId, setRoomId] = useState("");
+  const [isHost, setIsHost] = useState(false);
+
+//create room 
+  const createRoom = async () =>
+  {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        initialState: {
+          player1: name,
+          player2: null,
+          board: [
+            [null, null, null],
+            [null, null, null],
+            [null, null, null]
+          ],
+          isXTurn: true,
+          winner: null
+        }
+      })
+    })
+    const data = await res.json();
+    setRoomId(data.roomId);
+    setGameState(data.gameState);
+    setIsHost(true);
+  };
+
+//join room
+const joinRoom = async(roomId) =>
+{
+  const res = await fetch(`${API_URL}/${roomId}`);
+  const data = res.json();
+
+  const updatedState = {
+    ...data.board, player2: name};
+
+  await fetch(`${API_URL}/${roomId}`), {
+    method: "PUT",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({})
+  }
+
+  setRoomId(roomId);
+  setGameState(updatedState);
+  setIsHost(false);
+}
+
+//Update game state
+const fetchGameState = async() =>
+{
+  if (!roomId) return;
+  const res = await fetch(`${API_URL}/${roomId}`);
+  const data = await res.json();
+  setGameState(data.gameState);
+};
+
+useEffect(()=>
+{
+  const interval = setInterval(()=>
+  {
+    fetchGameState();
+  }, 2000);
+  return () => clearInterval(interval);
+}, [roomId]);
 
   const handleClick = (index) => {
     if (board[index] || winner) return;
