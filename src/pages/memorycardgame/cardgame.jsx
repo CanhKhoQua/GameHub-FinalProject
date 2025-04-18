@@ -38,14 +38,6 @@ export default function Cardgame()
         }
     };
 
-    useEffect(()=>
-    {
-        if(champsAmount)
-        {
-            fetchData();
-        }
-    },[champsAmount])
-
     //get random index of champs
     function getRandomIndices(data)
     {
