@@ -37,6 +37,7 @@ export default function Hangman() {
     console.log('Initial highScore:', storedScore);
     return storedScore;
   });
+  const [hasScoredWin, setHasScoredWin] = useState(false);
   const maxIncorrect = 6;
 
   const lengthRanges = {
@@ -86,7 +87,7 @@ export default function Hangman() {
   }, [wordBank]);
 
   useEffect(() => {
-    if (isGameWon) {
+    if (isGameWon && !hasScoredWin) {
       const bonus = (maxIncorrect - incorrectGuesses) * winBonusMultiplier[difficulty];
       const newScore = score + bonus;
       console.log('Game won! Score:', score, 'Bonus:', bonus, 'New Score:', newScore);
@@ -96,8 +97,9 @@ export default function Hangman() {
         setHighScore(newScore);
         localStorage.setItem(`highScore_${name || 'Player'}`, newScore);
       }
+      setHasScoredWin(true);
     }
-  }, [isGameWon, incorrectGuesses, score, highScore, difficulty, maxIncorrect, name]);
+  }, [isGameWon, incorrectGuesses, difficulty, maxIncorrect, name, score, highScore, hasScoredWin]);
 
   const resetGame = () => {
     if (!wordBank) return;
@@ -106,6 +108,7 @@ export default function Hangman() {
     setGuessedLetters([]);
     setIncorrectGuesses(0);
     setScore(0);
+    setHasScoredWin(false); // Reset win scoring flag
   };
 
   const handleGuess = (letter) => {
