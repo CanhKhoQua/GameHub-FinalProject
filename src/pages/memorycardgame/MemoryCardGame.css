@@ -14,7 +14,7 @@ Memory Card Game
     height: 100px;
     overflow: hidden;
     border-radius: 18px;
-    transition: all 0.5s ease;
+    transition: all 1s ease; 
   }
   
   .card-item img {
@@ -30,7 +30,8 @@ Memory Card Game
 
   /* Animated memory card */
 .card-item--selected,
-.card-item--matched{
+.card-item--matched
+{
     transform: rotateY(360deg);
 }
 

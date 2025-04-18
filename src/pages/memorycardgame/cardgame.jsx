@@ -10,8 +10,10 @@ export default function Cardgame()
     const [matchedCards, setMatchedCards] = useState([]);
     const [moves,setMoves] = useState(0);
     const [won,setWon] = useState(0);
+    const [gameOn, setGameOn] = useState(false);
+    const [difficulty, setDifficulty] = useState();
+    const [champsAmount, setChampsAmount] = useState();
     console.log(selectedCards);
-    const champsAmount = 5;
 
     const fetchData = async() => {
         try {
@@ -38,8 +40,11 @@ export default function Cardgame()
 
     useEffect(()=>
     {
-        fetchData();
-    },[])
+        if(champsAmount)
+        {
+            fetchData();
+        }
+    },[champsAmount])
 
     //get random index of champs
     function getRandomIndices(data)
@@ -120,7 +125,44 @@ export default function Cardgame()
             setMoves((moves)=>moves + 1);
         }
     }
-    
+
+    function handleDifficultyChange(level)
+    {
+        setDifficulty(level);
+        setGameOn(false);
+        if (level === "Easy") 
+        {
+            setChampsAmount(5);
+            setGameOn(true);
+        }
+        else if (level === "Medium")
+        {
+            setChampsAmount(10);
+            setGameOn(true);
+        }
+        else if (level === "Hard") 
+        {   setChampsAmount(15);
+            setGameOn(true);
+        }
+    };
+
+    useEffect(() =>
+    {
+        resetGame();
+    },[champsAmount])
+
+    function GameMode()
+    {
+        return (
+            <div>
+                <h2>Select Difficulty</h2>
+                <button onClick={() => handleDifficultyChange("Easy")}>Easy</button>
+                <button onClick={() => handleDifficultyChange("Medium")}>Medium</button>
+                <button onClick={() => handleDifficultyChange("Hard")}>Hard</button>
+            </div>
+        );
+    }
+
     const champImages = champsName.map((name, index) => {
         const imageUrl = `https://ddragon.leagueoflegends.com/cdn/12.6.1/img/champion/${name}.png`;
         const selectedCardCheck = selectedCards.find(card=>card.index === index);
@@ -137,13 +179,14 @@ export default function Cardgame()
             {showImage 
                 ? <img src={imageUrl} /> 
                 : <img src="src/pages/memorycardgame/chest.png" />
-            }            </li>
+            }</li>
         );
     });
 
-    return (
-        <>
-            <h1>Memory Card Game</h1>
+    function MemoryCardGame()
+    {
+        return (
+            <> 
             <p>Player: {name}</p>
             <p>Moves: {moves}</p>
             <p>Matches: {won}</p>
@@ -153,7 +196,17 @@ export default function Cardgame()
             <div>
                 {won === champsName.length/2 ? (<p>{name} won the game</p>) : ([])}
                 <button onClick={resetGame}>Reset Game</button>
-            </div>
+                <button onClick={()=>setGameOn(false)}>Game Mode</button>
+            </div></>
+        )
+    }
+
+
+    return (
+        <>
+            <h1>Memory Card Game</h1>
+            {!gameOn ? <GameMode/> : <MemoryCardGame/>
+            }
         </>
     )
 }
