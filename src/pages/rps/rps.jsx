@@ -12,7 +12,6 @@ export default function RockPaperScissors() {
   const [gameState, setGameState] = useState(null);
   const [playerChoice, setPlayerChoice] = useState("");
 
-  // Create room
   const createRoom = async () => {
     const res = await fetch(API_URL, {
       method: "POST",
@@ -35,7 +34,6 @@ export default function RockPaperScissors() {
     setIsHost(true);
   };
 
-  // Join room
   const joinRoom = async (roomId) => {
     const res = await fetch(`${API_URL}/${roomId}`);
     const data = await res.json();
@@ -60,7 +58,6 @@ export default function RockPaperScissors() {
     setIsHost(false);
   };
 
-  // Fetch room state
   const fetchGameState = async () => {
     if (!roomId) return;
     const res = await fetch(`${API_URL}/${roomId}`);
@@ -142,6 +139,29 @@ export default function RockPaperScissors() {
     setGameState(data.gameState);
   };
 
+  const getOpponentChoiceText = () => {
+    if (!gameState) return "";
+
+    const isPlayer1 = gameState.player1 === name;
+    const opponent = isPlayer1 ? gameState.player2 : gameState.player1;
+    const opponentChoice = isPlayer1
+      ? gameState.player2Choice
+      : gameState.player1Choice;
+
+    return opponentChoice ? `${opponent} picked ${opponentChoice}` : "";
+  };
+
+  const getPlayerChoiceText = () => {
+    if (!gameState) return "";
+
+    const isPlayer1 = gameState.player1 === name;
+    const myChoice = isPlayer1
+      ? gameState.player1Choice
+      : gameState.player2Choice;
+
+    return myChoice ? `You picked ${myChoice}` : "";
+  };
+
   return (
     <div className="rps-container">
       <h1 className="rps-title">Rock Paper Scissors</h1>
@@ -201,6 +221,11 @@ export default function RockPaperScissors() {
             <button onClick={resetRoom} className="rps-reset">
               Reset
             </button>
+          </div>
+
+          <div className="rps-picks">
+            <p>{getPlayerChoiceText()}</p>
+            <p>{getOpponentChoiceText()}</p>
           </div>
 
           {gameState?.result && (

@@ -10,7 +10,6 @@ export default function TicTacToe() {
   const [isHost, setIsHost] = useState(false);
   const [gameState, setGameState] = useState(null);
 
-  // Create a new room
   const createRoom = async () => {
     const res = await fetch(API_URL, {
       method: "POST",
@@ -22,6 +21,8 @@ export default function TicTacToe() {
           board: Array(9).fill(null),
           isXTurn: true,
           winner: null,
+          player1Reset: false,
+          player2Reset: false,
         },
       }),
     });
@@ -32,7 +33,6 @@ export default function TicTacToe() {
     setIsHost(true);
   };
 
-  // Join an existing room
   const joinRoom = async (roomId) => {
     const res = await fetch(`${API_URL}/${roomId}`);
     const data = await res.json();
@@ -40,6 +40,7 @@ export default function TicTacToe() {
     const updatedState = {
       ...data.gameState,
       player2: name,
+      player2Reset: false,
     };
 
     await fetch(`${API_URL}/${roomId}`, {
@@ -53,7 +54,6 @@ export default function TicTacToe() {
     setIsHost(false);
   };
 
-  // Fetch game state every 2 seconds
   const fetchGameState = async () => {
     if (!roomId) return;
     const res = await fetch(`${API_URL}/${roomId}`);
@@ -72,8 +72,6 @@ export default function TicTacToe() {
     if (!gameState || gameState.board[index] || gameState.winner) return;
 
     const isPlayerX = gameState.player1 === name;
-    const isPlayerOTurn = !gameState.isXTurn;
-
     if ((gameState.isXTurn && !isPlayerX) || (!gameState.isXTurn && isPlayerX)) {
       return;
     }
@@ -89,6 +87,8 @@ export default function TicTacToe() {
       board: newBoard,
       isXTurn: !gameState.isXTurn,
       winner: winner || (isTie ? "Tie" : null),
+      player1Reset: false,
+      player2Reset: false,
     };
 
     await fetch(`${API_URL}/${roomId}`, {
@@ -117,32 +117,51 @@ export default function TicTacToe() {
   const resetRoom = async () => {
     if (!roomId || !gameState) return;
 
-    const clearedState = {
+    const isPlayer1 = gameState.player1 === name;
+    const updatedState = {
       ...gameState,
-      board: Array(9).fill(null),
-      isXTurn: true,
-      winner: null,
+      player1Reset: isPlayer1 ? true : gameState.player1Reset,
+      player2Reset: !isPlayer1 ? true : gameState.player2Reset,
     };
+
+    // If both players requested reset, clear the board
+    const bothConfirmed = updatedState.player1Reset && updatedState.player2Reset;
+
+    if (bothConfirmed) {
+      updatedState.board = Array(9).fill(null);
+      updatedState.isXTurn = true;
+      updatedState.winner = null;
+      updatedState.player1Reset = false;
+      updatedState.player2Reset = false;
+    }
 
     const res = await fetch(`${API_URL}/${roomId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ gameState: clearedState }),
+      body: JSON.stringify({ gameState: updatedState }),
     });
 
     const data = await res.json();
     setGameState(data.gameState);
   };
 
+  const getSymbol = (playerName) => {
+    if (gameState?.player1 === playerName) return "X";
+    if (gameState?.player2 === playerName) return "O";
+    return "";
+  };
+
+  const otherPlayer = () =>
+    gameState?.player1 === name ? gameState?.player2 : gameState?.player1;
+
   return (
     <div className="rps-container">
       <h1 className="rps-title">Tic Tac Toe</h1>
-      <p className="rps-player">{name && `Player: ${name}`}</p>
+      <p className="rps-player">{name && `Player: ${name} is ${getSymbol(name)}`}</p>
+      {otherPlayer() && (
+        <p className="rps-player">{otherPlayer()} is {getSymbol(otherPlayer())}</p>
+      )}
       {roomId && <p className="rps-room-code">Room Code: {roomId}</p>}
-
-      {/* Display which player is X or O */}
-      {gameState?.player1 && <p>{gameState.player1} is X</p>}
-      {gameState?.player2 && <p>{gameState.player2} is O</p>}
 
       {!roomId && (
         <div className="rps-actions">
@@ -189,12 +208,15 @@ export default function TicTacToe() {
 
           <div className="rps-actions">
             <button onClick={resetRoom} className="rps-reset">
-              Reset
+              Request Reset
             </button>
+            {((gameState?.player1 === name && gameState?.player2Reset) ||
+              (gameState?.player2 === name && gameState?.player1Reset)) && (
+              <p className="rps-waiting">Opponent requested a reset</p>
+            )}
           </div>
         </>
       )}
     </div>
   );
 }
-
