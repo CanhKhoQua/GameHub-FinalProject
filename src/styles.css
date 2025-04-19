@@ -21,7 +21,7 @@ nav {
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #000000;
   text-decoration: inherit;
 }
 a:hover {
@@ -29,6 +29,10 @@ a:hover {
 }
 
 body {
+  background-image: url('');
+  background-size: cover; 
+  background-position: center;
+  background-attachment: fixed;
   margin: 0;
   display: flex;
   place-items: center;

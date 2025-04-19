@@ -124,11 +124,11 @@ export default function Cardgame()
         setGameOn(false);
         if (level === "Easy") 
         {
-            setChampsAmount(5);
+            setChampsAmount(6);
         }
         else if (level === "Medium")
         {
-            setChampsAmount(10);
+            setChampsAmount(9);
         }
         else if (level === "Hard") 
         {   setChampsAmount(15);
@@ -175,6 +175,7 @@ export default function Cardgame()
 
     return (
         <>
+        <div className="game-container">
             <h1>Memory Card Game</h1>
             {!gameOn ? <GameMode/> : <> 
             <p>Player: {name}</p>
@@ -187,8 +188,10 @@ export default function Cardgame()
                 {won === champsName.length/2 ? (<p>{name} won the game</p>) : ([])}
                 <button onClick={resetGame}>Reset Game</button>
                 <button onClick={()=>setGameOn(false)}>Game Mode</button>
-            </div></>
+            </div>
+            </>
             }
+            </div>
         </>
     )
 }

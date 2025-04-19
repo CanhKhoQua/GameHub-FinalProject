@@ -13,6 +13,7 @@ import { UserProvider, useUser } from './UserContext.jsx'
 import './pages/rps/rockpaperscissors.css'
 import './pages/tictactoe/ttt.css'
 import './pages/wordle/wordles.css'
+import Home from './pages/home/home.jsx'
 
 function Layout() {
   const { name, setName } = useUser();
@@ -32,9 +33,12 @@ function Layout() {
           />
         </label>
       </div>
-      <Navigation />
-      <Outlet />
-    </>
+        <Navigation />
+        <Outlet />
+        <footer>
+          <p>© 2025 GameHub Project.</p>
+        </footer>
+      </>
   );
 }
 
@@ -43,6 +47,7 @@ const router = createBrowserRouter([
     path: "/GameHub-FinalProject/",
     Component: Layout,
     children: [
+      { path: "", element: <Home/>},
       { path: "hangman", element: <Hangman /> },
       { path: "cardgame", element: <Cardgame /> },
       { path: "rps", element: <RockPaperScisor /> },
