@@ -34,7 +34,6 @@ export default function Hangman() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(() => {
     const storedScore = parseInt(localStorage.getItem(`highScore_${name || 'Player'}`)) || 0;
-    console.log('Initial highScore:', storedScore);
     return storedScore;
   });
   const [hasScoredWin, setHasScoredWin] = useState(false);
@@ -72,7 +71,6 @@ export default function Hangman() {
           .map(word => word.toUpperCase());
         setWordBank(filteredWords.length > 0 ? filteredWords : fallbackWords.filter(word => word.length >= min && word.length <= max));
       } catch (error) {
-        console.error('Failed to fetch words:', error);
         const [min, max] = lengthRanges[difficulty];
         setWordBank(fallbackWords.filter(word => word.length >= min && word.length <= max));
       }
@@ -90,10 +88,8 @@ export default function Hangman() {
     if (isGameWon && !hasScoredWin) {
       const bonus = (maxIncorrect - incorrectGuesses) * winBonusMultiplier[difficulty];
       const newScore = score + bonus;
-      console.log('Game won! Score:', score, 'Bonus:', bonus, 'New Score:', newScore);
       setScore(newScore);
       if (newScore > highScore) {
-        console.log('Updating highScore from', highScore, 'to', newScore);
         setHighScore(newScore);
         localStorage.setItem(`highScore_${name || 'Player'}`, newScore);
       }
@@ -108,8 +104,7 @@ export default function Hangman() {
     setGuessedLetters([]);
     setIncorrectGuesses(0);
     setScore(0);
-    setHasScoredWin(false); // Reset win scoring flag
-    console.log('Selected word:', randomWord);
+    setHasScoredWin(false);
   };
 
   const handleGuess = (letter) => {
@@ -131,7 +126,8 @@ export default function Hangman() {
   return (
     <div className="hangman-game">
       <h1>Hangman</h1>
-      <p>Player <strong>{name || 'Player'}</strong></p>
+      {name && <p className="hangman-player">Player: {name}</p>}
+
       <div className="score-display">
         <p>Score: {score}</p>
         <p>High Score: {highScore}</p>
@@ -144,18 +140,20 @@ export default function Hangman() {
           Reset High Score
         </button>
       </div>
+
       <div className="difficulty-selector">
-        <label htmlFor="difficulty">Difficulty: </label>
+        <label htmlFor="difficulty">Difficulty:</label>
         <select
           id="difficulty"
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
         >
-          <option value="easy">Easy (5-6 letters)</option>
-          <option value="medium">Medium (7-9 letters)</option>
-          <option value="hard">Hard (10-12 letters)</option>
+          <option value="easy">Easy (5–6 letters)</option>
+          <option value="medium">Medium (7–9 letters)</option>
+          <option value="hard">Hard (10–12 letters)</option>
         </select>
       </div>
+
       <HangmanDisplay incorrectGuesses={incorrectGuesses} />
       <WordDisplay word={word} guessedLetters={guessedLetters} />
       <Keyboard
@@ -163,16 +161,17 @@ export default function Hangman() {
         handleGuess={handleGuess}
         isGameOver={isGameOver || isGameWon}
       />
+
       {isGameWon && (
         <div className="game-message">
-          <p>Congratulations! You won! Final Score: {score}</p>
+          <p>🎉 Congratulations! You won! Final Score: {score}</p>
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
       {isGameOver && !isGameWon && (
         <div className="game-message">
-          <p>Game Over! The word was {word}. Final Score: {score}</p>
-          <button onClick={resetGame}>Play Again</button>
+          <p>💀 Game Over! The word was <strong>{word}</strong>. Final Score: {score}</p>
+          <button onClick={resetGame}>Try Again</button>
         </div>
       )}
     </div>

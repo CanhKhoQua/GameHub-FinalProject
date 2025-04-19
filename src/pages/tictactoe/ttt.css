@@ -5,6 +5,8 @@
   text-align: center;
   font-family: 'Segoe UI', sans-serif;
   border-radius: 12px;
+  background-color: #ffffff; /* light background */
+  color: #1f2937;
 }
 
 .ttt-board {
@@ -20,9 +22,9 @@
   height: 80px;
   font-size: 2rem;
   cursor: pointer;
-  border: 2px solid #333;
+  border: 2px solid #3b3b3b;
   border-radius: 8px;
-  background-color: #f4f4f4;
+  background-color: #ffffff; /* clean white background */
   transition: background-color 0.2s;
   display: flex;
   align-items: center;
@@ -30,7 +32,7 @@
 }
 
 .ttt-cell:hover {
-  background-color: #e0e0e0;
+  background-color: #f0f9ff; /* soft blueish hover for light mode */
 }
 
 .ttt-x {
@@ -42,5 +44,6 @@
   color: #ef4444;
   font-weight: bold;
 }
+
 
   

@@ -1,9 +1,91 @@
 /*==============
 Memory Card Game
 ===============*/
-.game-container {
-  min-height: 60vh;
+.memory-game {
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f2937;
 }
+
+.memory-player {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #000;
+  font-style: italic;
+}
+
+.score-display {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.score-display p {
+  margin: 5px 0;
+}
+
+.score-display button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 5px;
+  transition: background-color 0.2s;
+}
+
+.score-display button:hover {
+  background-color: #dc2626;
+}
+
+.difficulty-selector {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.difficulty-selector label {
+  margin-right: 10px;
+}
+
+.difficulty-selector select {
+  padding: 5px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #94a3b8;
+  background-color: #f9fafb;
+}
+
+.game-message {
+  margin-top: 20px;
+}
+
+.game-message p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.game-message button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.game-message button:hover {
+  background-color: #2563eb;
+}
+
 .card-container {
   padding: 30px;
   padding-left: 0;
@@ -11,10 +93,10 @@ Memory Card Game
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   max-width: 680px;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   gap: 0.5em;
   width: 100%;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .card-item {
@@ -22,7 +104,7 @@ Memory Card Game
   height: 100px;
   overflow: hidden;
   border-radius: 18px;
-  transition: all 1s ease; 
+  transition: all 1s ease;
 }
 
 .card-item img {
@@ -35,16 +117,13 @@ Memory Card Game
   transform: scale(1.05);
 }
 
-/* Animated memory card */
 .card-item--selected,
-.card-item--matched
-{
-    transform: rotateY(360deg);
+.card-item--matched {
+  transform: rotateY(360deg);
 }
 
 .card-item--selected {
   transition: 0s;
   transform-style: preserve-3d;
-  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
 }
-

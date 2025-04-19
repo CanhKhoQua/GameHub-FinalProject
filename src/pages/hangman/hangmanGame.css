@@ -1,70 +1,84 @@
 .hangman-game {
-    text-align: center;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    min-height: 100vh;
-  }
-  
-  .score-display {
-    margin: 10px 0;
-    font-size: 1.1em;
-  }
-  
-  .score-display p {
-    margin: 5px 0;
-  }
-  
-  .score-display button {
-    padding: 5px 10px;
-    font-size: 0.9em;
-    cursor: pointer;
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-top: 5px;
-  }
-  
-  .score-display button:hover {
-    background-color: #b71c1c;
-  }
-  
-  .difficulty-selector {
-    margin: 15px 0;
-    font-size: 1.1em;
-  }
-  
-  .difficulty-selector label {
-    margin-right: 10px;
-  }
-  
-  .difficulty-selector select {
-    padding: 5px;
-    font-size: 1em;
-    border-radius: 5px;
-    border: 1px solid #333;
-    background-color: #fff;
-  }
-  
-  .game-message {
-    margin-top: 20px;
-  }
-  
-  .game-message p {
-    font-size: 1.2em;
-    color: #d32f2f;
-  }
-  
-  .game-message button {
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .game-message button:hover {
-    background-color: #1565c0;
-  }
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.score-display {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.score-display p {
+  margin: 5px 0;
+}
+
+.score-display button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 5px;
+  transition: background-color 0.2s;
+}
+
+.score-display button:hover {
+  background-color: #dc2626;
+}
+
+.difficulty-selector {
+  margin: 15px 0;
+  font-size: 1.1rem;
+  color: #1f2937;
+}
+
+.difficulty-selector label {
+  margin-right: 10px;
+}
+
+.difficulty-selector select {
+  padding: 5px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #94a3b8;
+  background-color: #f9fafb;
+}
+
+.game-message {
+  margin-top: 20px;
+}
+
+.game-message p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.game-message button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.game-message button:hover {
+  background-color: #2563eb;
+}
+
+.hangman-player {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #000;
+  font-style: italic;
+}
