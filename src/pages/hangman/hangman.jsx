@@ -39,8 +39,6 @@ export default function Hangman() {
   const [hasScoredWin, setHasScoredWin] = useState(false);
   const maxIncorrect = 6;
 
-  console.log(word);
-  console.log(score);
   
   const lengthRanges = {
     easy: [5, 6],
