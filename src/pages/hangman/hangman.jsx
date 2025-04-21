@@ -34,6 +34,7 @@ export default function Hangman() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(() => {
     const storedScore = parseInt(localStorage.getItem(`highScore_${name || 'Player'}`)) || 0;
+    console.log('Initial highScore:', storedScore);
     return storedScore;
   });
   const [hasScoredWin, setHasScoredWin] = useState(false);
@@ -57,6 +58,13 @@ export default function Hangman() {
     hard: 100
   };
 
+  // Clear high score from localStorage on mount
+  useEffect(() => {
+    console.log('Clearing highScore for', `highScore_${name || 'Player'}`);
+    localStorage.removeItem(`highScore_${name || 'Player'}`);
+    setHighScore(0);
+  }, [name]);
+
   const isGameWon = word && word.split('').every((letter) => guessedLetters.includes(letter));
   const isGameOver = incorrectGuesses >= maxIncorrect;
 
@@ -71,6 +79,7 @@ export default function Hangman() {
           .map(word => word.toUpperCase());
         setWordBank(filteredWords.length > 0 ? filteredWords : fallbackWords.filter(word => word.length >= min && word.length <= max));
       } catch (error) {
+        console.error('Failed to fetch words:', error);
         const [min, max] = lengthRanges[difficulty];
         setWordBank(fallbackWords.filter(word => word.length >= min && word.length <= max));
       }
@@ -88,8 +97,10 @@ export default function Hangman() {
     if (isGameWon && !hasScoredWin) {
       const bonus = (maxIncorrect - incorrectGuesses) * winBonusMultiplier[difficulty];
       const newScore = score + bonus;
+      console.log('Game won! Score:', score, 'Bonus:', bonus, 'New Score:', newScore);
       setScore(newScore);
       if (newScore > highScore) {
+        console.log('Updating highScore from', highScore, 'to', newScore);
         setHighScore(newScore);
         localStorage.setItem(`highScore_${name || 'Player'}`, newScore);
       }
@@ -100,6 +111,7 @@ export default function Hangman() {
   const resetGame = () => {
     if (!wordBank) return;
     const randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+    console.log('Selected word:', randomWord);
     setWord(randomWord);
     setGuessedLetters([]);
     setIncorrectGuesses(0);
@@ -164,13 +176,13 @@ export default function Hangman() {
 
       {isGameWon && (
         <div className="game-message">
-          <p>🎉 Congratulations! You won! Final Score: {score}</p>
+          <p>Congratulations! You won! Final Score: {score}</p>
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
       {isGameOver && !isGameWon && (
         <div className="game-message">
-          <p>💀 Game Over! The word was <strong>{word}</strong>. Final Score: {score}</p>
+          <p>Game Over! The word was <strong>{word}</strong>. Final Score: {score}</p>
           <button onClick={resetGame}>Try Again</button>
         </div>
       )}
