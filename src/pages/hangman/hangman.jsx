@@ -167,6 +167,13 @@ export default function Hangman() {
         </select>
       </div>
 
+      <div className="rules-display">
+        <h2>Scoring Rules</h2>
+        <p>Correct Guess: +{pointsPerLetter[difficulty]} points per letter</p>
+        <p>Incorrect Guess: -5 points (minimum score 0)</p>
+        <p>Win Bonus: {(maxIncorrect - incorrectGuesses) * winBonusMultiplier[difficulty]} points (based on {maxIncorrect - incorrectGuesses} remaining attempts)</p>
+      </div>
+
       <HangmanDisplay incorrectGuesses={incorrectGuesses} />
       <WordDisplay word={word} guessedLetters={guessedLetters} />
       <Keyboard
