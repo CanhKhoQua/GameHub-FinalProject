@@ -149,7 +149,7 @@ export default function Cardgame() {
                 </ul>
 
                 <div className="game-message">
-                    {won === champsName.length / 2 && <p>{name} won the game</p>}
+                    {won === champsName.length / 2 && <p>{name} won {difficulty} mode in {moves} moves </p>}
                     <button onClick={resetGame}>Reset Game</button>
                     <button onClick={() => setGameOn(false)}>Game Mode</button>
                 </div>
