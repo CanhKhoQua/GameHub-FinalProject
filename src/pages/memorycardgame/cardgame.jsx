@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./MemoryCardGame.css";
+import chestImg from './chest.png'
 import { useUser } from "../../UserContext.jsx";
 
 export default function Cardgame() {
@@ -128,7 +129,7 @@ export default function Cardgame() {
             <li key={index} className={cardStyle} onClick={() => turnCard(name, index)}>
                 {showImage
                     ? <img src={imageUrl} alt={name} />
-                    : <img src="src/pages/memorycardgame/chest.png" alt="hidden" />}
+                    : <img src={chestImg} alt="hidden" />}
             </li>
         );
     });
