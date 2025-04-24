@@ -19,12 +19,18 @@ export default function Wordle() {
 
   const fetchRandomWord = async () => {
     try {
-      const res = await fetch(`https://it3049c-hangman.fly.dev`);
+      const res = await fetch("https://it3049c-hangman.fly.dev/");
       const data = await res.json();
-      setAnswer(data.word.toUpperCase());
+      if (data && data.word) {
+        setAnswer(data.word.toUpperCase()); // Set the fetched word
+      } else {
+        setMessage("Failed to fetch a valid word.");
+        setGameOver(true);
+      }
     } catch (err) {
       console.error("Error fetching word:", err);
-      setAnswer("REACT"); 
+      setMessage("Error fetching word.");
+      setGameOver(true);
     }
   };
 
@@ -136,7 +142,4 @@ export default function Wordle() {
     </div>
   );
 }
-
-
-
 
