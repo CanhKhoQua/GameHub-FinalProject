@@ -29,7 +29,6 @@ export default function RockPaperScissors() {
         },
       }),
     });
-
     const data = await res.json();
     setRoomId(data.roomId);
     setGameState(data.gameState);
@@ -39,7 +38,6 @@ export default function RockPaperScissors() {
   const joinRoom = async (roomId) => {
     const res = await fetch(`${API_URL}/${roomId}`);
     const data = await res.json();
-
     const updatedState = {
       ...data.gameState,
       player2: name,
@@ -49,13 +47,11 @@ export default function RockPaperScissors() {
       },
       player2Reset: false,
     };
-
     await fetch(`${API_URL}/${roomId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ gameState: updatedState }),
     });
-
     setRoomId(roomId);
     setGameState(updatedState);
     setIsHost(false);
@@ -87,26 +83,29 @@ export default function RockPaperScissors() {
       updatedState.player2Choice = playerChoice;
     }
 
+    // Only determine result when both players have chosen
     if (updatedState.player1Choice && updatedState.player2Choice) {
       const p1 = updatedState.player1Choice;
       const p2 = updatedState.player2Choice;
+      const player1 = gameState.player1;
+      const player2 = gameState.player2;
 
-      let result = `${gameState.player1} picked ${p1}, ${gameState.player2} picked ${p2}. `;
+      let resultText = `${player1} picked ${p1}, ${player2} picked ${p2}. `;
       if (p1 === p2) {
-        result += "It's a tie!";
+        resultText += "It's a tie!";
       } else if (
         (p1 === "Rock" && p2 === "Scissors") ||
         (p1 === "Paper" && p2 === "Rock") ||
         (p1 === "Scissors" && p2 === "Paper")
       ) {
-        result += `${gameState.player1} wins!`;
-        updatedState.scores[gameState.player1]++;
+        resultText += `${player1} wins!`;
+        updatedState.scores[player1]++;
       } else {
-        result += `${gameState.player2} wins!`;
-        updatedState.scores[gameState.player2]++;
+        resultText += `${player2} wins!`;
+        updatedState.scores[player2]++;
       }
 
-      updatedState.result = result;
+      updatedState.result = resultText;
       updatedState.player1Choice = null;
       updatedState.player2Choice = null;
       updatedState.player1Reset = false;
@@ -126,7 +125,6 @@ export default function RockPaperScissors() {
 
   const resetRoom = async () => {
     if (!roomId || !gameState) return;
-
     const isPlayer1 = gameState.player1 === name;
     const updatedState = {
       ...gameState,
@@ -135,11 +133,10 @@ export default function RockPaperScissors() {
     };
 
     const bothConfirmed = updatedState.player1Reset && updatedState.player2Reset;
-
     if (bothConfirmed) {
+      updatedState.result = null;
       updatedState.player1Choice = null;
       updatedState.player2Choice = null;
-      updatedState.result = null;
       updatedState.player1Reset = false;
       updatedState.player2Reset = false;
     }
@@ -154,33 +151,23 @@ export default function RockPaperScissors() {
     setGameState(data.gameState);
   };
 
-  const getOpponentChoiceText = () => {
-    if (!gameState) return "";
-
+  const opponentSubmitted = () => {
+    if (!gameState) return false;
     const isPlayer1 = gameState.player1 === name;
-    const opponent = isPlayer1 ? gameState.player2 : gameState.player1;
-    const opponentChoice = isPlayer1
-      ? gameState.player2Choice
-      : gameState.player1Choice;
-
-    return opponentChoice ? `${opponent} picked ${opponentChoice}` : "";
-  };
-
-  const getPlayerChoiceText = () => {
-    if (!gameState) return "";
-
-    const isPlayer1 = gameState.player1 === name;
-    const myChoice = isPlayer1
-      ? gameState.player1Choice
-      : gameState.player2Choice;
-
-    return myChoice ? `You picked ${myChoice}` : "";
+    return isPlayer1 ? !!gameState.player2Choice : !!gameState.player1Choice;
   };
 
   const opponentRequestedReset = () => {
     if (!gameState) return false;
     const isPlayer1 = gameState.player1 === name;
     return isPlayer1 ? gameState.player2Reset : gameState.player1Reset;
+  };
+
+  const getPlayerChoiceText = () => {
+    if (!gameState) return "";
+    const isPlayer1 = gameState.player1 === name;
+    const myChoice = isPlayer1 ? gameState.player1Choice : gameState.player2Choice;
+    return myChoice ? `You picked ${myChoice}` : "";
   };
 
   return (
@@ -191,9 +178,7 @@ export default function RockPaperScissors() {
 
       {!roomId && (
         <div className="rps-actions">
-          <button className="rps-submit" onClick={createRoom}>
-            Create Room
-          </button>
+          <button className="rps-submit" onClick={createRoom}>Create Room</button>
           <button
             className="rps-submit"
             onClick={() => {
@@ -226,9 +211,7 @@ export default function RockPaperScissors() {
               <button
                 key={choice}
                 onClick={() => setPlayerChoice(choice)}
-                className={`rps-button ${
-                  playerChoice === choice ? "selected" : ""
-                }`}
+                className={`rps-button ${playerChoice === choice ? "selected" : ""}`}
               >
                 {choice}
               </button>
@@ -236,17 +219,15 @@ export default function RockPaperScissors() {
           </div>
 
           <div className="rps-actions">
-            <button onClick={handleSubmit} className="rps-submit">
-              Submit
-            </button>
-            <button onClick={resetRoom} className="rps-reset">
-              Request Reset
-            </button>
+            <button onClick={handleSubmit} className="rps-submit">Submit</button>
+            <button onClick={resetRoom} className="rps-reset">Request Reset</button>
           </div>
 
           <div className="rps-picks">
             <p>{getPlayerChoiceText()}</p>
-            <p>{getOpponentChoiceText()}</p>
+            {opponentSubmitted() && !gameState?.result && (
+              <p>Your opponent has submitted their choice.</p>
+            )}
           </div>
 
           {opponentRequestedReset() && (
@@ -263,3 +244,4 @@ export default function RockPaperScissors() {
     </div>
   );
 }
+

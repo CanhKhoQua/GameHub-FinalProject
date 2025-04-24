@@ -21,7 +21,7 @@ export default function Wordle() {
     try {
       const res = await fetch(`https://it3049c-hangman.fly.dev`);
       const data = await res.json();
-      setAnswer(data[0].toUpperCase());
+      setAnswer(data.word.toUpperCase());
     } catch (err) {
       console.error("Error fetching word:", err);
       setAnswer("REACT"); 
