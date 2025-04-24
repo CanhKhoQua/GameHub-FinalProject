@@ -9,6 +9,7 @@ import { NavLink } from "react-router"
 export default function Home() {
     return (
         <>
+        <p>Team Members: Loc Nguyen, Uyen Duong, Jasmine Lim Smith</p>
             <div className="grid-container">
                 <div className="grid-item">
                     <NavLink to="/GameHub-FinalProject/tictactoe">
